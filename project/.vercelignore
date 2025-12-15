@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Environment variables (configure via Vercel dashboard)
+.env
+.env.local
+.env.*.local
+
+# Development files
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (will be rebuilt)
+dist
+.cache
+
+# Testing
+coverage
+.nyc_output
+
+# Temporary files
+tmp
+temp
+
+# Backups
+*.backup
+*.mysql-backup
+
+# Documentation (optional - remove if you want to include)
+*.md
+!README.md
