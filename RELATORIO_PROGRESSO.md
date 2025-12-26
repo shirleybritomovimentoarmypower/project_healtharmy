@@ -1,7 +1,7 @@
 # Relatório de Progresso - Health Army Volunteers
 
 **Data:** 26 de Dezembro de 2025  
-**Desenvolvedor:** Manus AI Assistant  
+**Desenvolvedora:** Shirley Brito  
 **Repositório:** [shirleybritomovimentoarmypower/project_healtharmy](https://github.com/shirleybritomovimentoarmypower/project_healtharmy)
 
 ---
