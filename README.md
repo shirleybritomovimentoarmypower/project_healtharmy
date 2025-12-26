@@ -85,16 +85,15 @@ cp .env.example .env
 Edite o `.env` com suas credenciais:
 
 ```env
-# Supabase
+# Supabase Database
 DATABASE_URL=postgresql://postgres:senha@db.projeto.supabase.co:5432/postgres
 
-# OAuth
-VITE_OAUTH_PORTAL_URL=https://oauth.manus.im
-VITE_APP_ID=seu-app-id
-OAUTH_SERVER_URL=https://oauth.manus.im
+# Supabase Auth
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua-anon-key-aqui
+SUPABASE_SERVICE_ROLE_KEY=sua-service-role-key-aqui
 
 # Admin
-OWNER_OPEN_ID=seu-open-id
 OWNER_NAME=admin@healtharmy.com
 ```
 
