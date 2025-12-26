@@ -8,7 +8,7 @@ Sistema de gestão de voluntários para o Health Army, com cadastro de profissio
 - **Backend:** Node.js + Express + tRPC
 - **Banco de Dados:** PostgreSQL (Supabase)
 - **ORM:** Drizzle ORM
-- **Autenticação:** Manus OAuth
+- **Autenticação:** Supabase Auth
 - **UI:** shadcn/ui + Tailwind CSS
 - **Deploy:** Vercel
 
@@ -59,7 +59,6 @@ health_army_volunteers/
 - Node.js 18+
 - pnpm 8+
 - Conta no Supabase
-- Conta no Manus OAuth
 
 ### Passo 1: Clonar o Repositório
 
@@ -82,7 +81,7 @@ Copie o arquivo de exemplo e configure:
 cp .env.example .env
 ```
 
-Edite o `.env` com suas credenciais:
+Edite o `.env` com suas credenciais do Supabase:
 
 ```env
 # Supabase Database
@@ -126,7 +125,7 @@ Para fazer deploy na Vercel, consulte o guia completo:
 
 ## 📚 Documentação
 
-- **[AUTHENTICATION_GUIDE.md](./AUTHENTICATION_GUIDE.md)** - Sistema de autenticação
+- **[SUPABASE_AUTH_GUIDE.md](./SUPABASE_AUTH_GUIDE.md)** - Sistema de autenticação (Supabase)
 - **[SUPABASE_INTEGRATION_GUIDE.md](./SUPABASE_INTEGRATION_GUIDE.md)** - Integração com Supabase
 - **[VERCEL_DEPLOY_GUIDE.md](./VERCEL_DEPLOY_GUIDE.md)** - Deploy na Vercel
 - **[QUICK_START.md](./QUICK_START.md)** - Guia rápido de instalação
@@ -136,7 +135,7 @@ Para fazer deploy na Vercel, consulte o guia completo:
 ### Tabelas
 
 **users** - Usuários do sistema
-- Autenticação via OAuth
+- Autenticação via Supabase Auth
 - Roles: user, admin
 
 **volunteers** - Voluntários cadastrados
@@ -163,7 +162,7 @@ pnpm db:studio
 
 ## 🔐 Autenticação
 
-O sistema usa **Manus OAuth** com dois tipos de usuários:
+O sistema usa **Supabase Auth** com dois tipos de usuários:
 
 ### Profissionais (role: user)
 - Acesso ao formulário de cadastro
@@ -178,7 +177,7 @@ O sistema usa **Manus OAuth** com dois tipos de usuários:
 
 ### Configurar Admin
 
-Execute no banco de dados:
+Execute no SQL Editor do Supabase:
 
 ```sql
 UPDATE users SET role = 'admin' WHERE email = 'seu-email@exemplo.com';

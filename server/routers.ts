@@ -2,7 +2,7 @@ import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, adminProcedure, router } from "./_core/trpc";
 import {
   createVolunteer,
   listVolunteers,
@@ -194,17 +194,24 @@ export const appRouter = router({
         return { id: volunteerId, message: "Voluntário cadastrado com sucesso!" };
       }),
 
-    list: publicProcedure.query(async () => {
+    list: adminProcedure.query(async () => {
       return await listVolunteers();
     }),
 
-    getById: publicProcedure
+    getById: protectedProcedure
       .input(z.object({ id: z.number().int().positive() }))
-      .query(async ({ input }) => {
-        return await getVolunteerWithAvailability(input.id);
+      .query(async ({ input, ctx }) => {
+        const volunteer = await getVolunteerWithAvailability(input.id);
+        
+        // Se não for admin, só pode ver se for o próprio cadastro (pelo email)
+        if (ctx.user.role !== 'admin' && volunteer?.email !== ctx.user.email) {
+          throw new Error("Acesso negado");
+        }
+        
+        return volunteer;
       }),
 
-    update: publicProcedure
+    update: adminProcedure
       .input(
         z.object({
           id: z.number().int().positive(),
@@ -229,7 +236,7 @@ export const appRouter = router({
         return { success: true, message: "Voluntário atualizado com sucesso!" };
       }),
 
-    delete: publicProcedure
+    delete: adminProcedure
       .input(z.object({ id: z.number().int().positive() }))
       .mutation(async ({ input }) => {
         await deleteVolunteer(input.id);

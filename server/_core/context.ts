@@ -14,9 +14,22 @@ export async function createContext(
   let user: User | null = null;
 
   try {
-    user = await sdk.authenticateRequest(opts.req);
+    const authHeader = opts.req.headers.authorization;
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1];
+      const { verifySupabaseToken, getOrCreateUser } = await import("../supabase");
+      const supabaseUser = await verifySupabaseToken(token);
+      
+      if (supabaseUser) {
+        user = await getOrCreateUser(
+          supabaseUser.id,
+          supabaseUser.email!,
+          supabaseUser.user_metadata?.name
+        );
+      }
+    }
   } catch (error) {
-    // Authentication is optional for public procedures.
+    console.error("Context Auth Error:", error);
     user = null;
   }
 
