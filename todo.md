@@ -37,8 +37,8 @@
 - [x] Visualizar detalhes completos do voluntário
 - [x] Visualizar disponibilidade de horários
 - [x] Deletar voluntário com confirmação
-- [ ] Implementar edição de dados pessoais
-- [ ] Implementar edição de disponibilidade de horários
+- [x] Implementar edição de dados pessoais
+- [x] Implementar edição de disponibilidade de horários
 
 ### Design e Branding
 - [x] Atualizar paleta de cores (Tailwind CSS)
@@ -97,7 +97,7 @@
 ### Edição de Perfil
 - [x] Criar página de edição de perfil (/volunteers/:id/edit)
 - [x] Implementar formulário de edição de dados pessoais
-- [ ] Implementar edição de disponibilidade de horários
+- [x] Implementar edição de disponibilidade de horários
 - [x] Validar dados na edição
 - [x] Implementar procedure PUT /volunteers/:id
 - [x] Feedback visual de sucesso na edição

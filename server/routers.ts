@@ -215,24 +215,33 @@ export const appRouter = router({
       .input(
         z.object({
           id: z.number().int().positive(),
-          fullName: z.string().min(1).optional(),
-          email: z.string().email().optional(),
-          phone: z.string().min(10).optional(),
-          specialization: z.string().min(1).optional(),
-          professionalRegistration: z.string().min(1).optional(),
-          project: z.enum(["borahae_terapias", "purple_army"]).optional(),
-          serviceType: z.enum(["gratuito", "valor_social", "ambos"]).optional(),
-          modality: z.enum(["online", "presencial"]).optional(),
-          sessionDuration: z.number().int().positive().optional(),
-          frequency: z.enum(["semanal", "quinzenal", "pontual"]).optional(),
-          notes: z.string().optional(),
-          address: z.string().optional(),
-          status: z.enum(["ativo", "inativo", "pendente"]).optional(),
+          data: z.object({
+            fullName: z.string().min(1).optional(),
+            email: z.string().email().optional(),
+            phone: z.string().min(10).optional(),
+            specialization: z.string().min(1).optional(),
+            professionalRegistration: z.string().min(1).optional(),
+            project: z.enum(["borahae_terapias", "purple_army"]).optional(),
+            serviceType: z.enum(["gratuito", "valor_social", "ambos"]).optional(),
+            modality: z.enum(["online", "presencial"]).optional(),
+            sessionDuration: z.number().int().positive().optional(),
+            frequency: z.enum(["semanal", "quinzenal", "pontual"]).optional(),
+            notes: z.string().optional(),
+            address: z.string().optional(),
+            status: z.enum(["ativo", "inativo", "pendente"]).optional(),
+            availability: z.array(
+              z.object({
+                dayOfWeek: z.number().int().min(0).max(6),
+                startTime: z.string().regex(/^\d{2}:\d{2}$/, "Formato de hora inválido (HH:mm)"),
+                endTime: z.string().regex(/^\d{2}:\d{2}$/, "Formato de hora inválido (HH:mm)"),
+              })
+            ).optional(),
+          }),
         })
       )
       .mutation(async ({ input }) => {
-        const { id, ...updateData } = input;
-        await updateVolunteer(id, updateData);
+        const { id, data } = input;
+        await updateVolunteer(id, data);
         return { success: true, message: "Voluntário atualizado com sucesso!" };
       }),
 

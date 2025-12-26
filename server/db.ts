@@ -208,7 +208,7 @@ export async function listVolunteers() {
  */
 export async function updateVolunteer(
   volunteerId: number,
-  data: Partial<InsertVolunteer>
+  data: Partial<InsertVolunteer> & { availability?: InsertVolunteerAvailability[] }
 ) {
   const db = await getDb();
   if (!db) {
@@ -216,16 +216,36 @@ export async function updateVolunteer(
   }
 
   try {
+    const { availability, ...volunteerData } = data;
+
     // Adicionar updatedAt automaticamente
     const updateData = {
-      ...data,
+      ...volunteerData,
       updatedAt: new Date(),
     };
 
+    // Atualizar dados do voluntário
     await db
       .update(volunteers)
       .set(updateData)
       .where(eq(volunteers.id, volunteerId));
+
+    // Se availability foi fornecida, atualizar disponibilidade
+    if (availability !== undefined) {
+      // Deletar disponibilidade antiga
+      await db
+        .delete(volunteerAvailability)
+        .where(eq(volunteerAvailability.volunteerId, volunteerId));
+
+      // Inserir nova disponibilidade
+      if (availability.length > 0) {
+        const availabilityWithVolunteerId = availability.map((a) => ({
+          ...a,
+          volunteerId,
+        }));
+        await db.insert(volunteerAvailability).values(availabilityWithVolunteerId);
+      }
+    }
   } catch (error) {
     console.error("[Database] Failed to update volunteer:", error);
     throw error;

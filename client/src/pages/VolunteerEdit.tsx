@@ -6,9 +6,22 @@ import { z } from "zod";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import { Loader2 } from "lucide-react";
+
+const DAYS_OF_WEEK = [
+  { value: 0, label: "Domingo" },
+  { value: 1, label: "Segunda-feira" },
+  { value: 2, label: "Terça-feira" },
+  { value: 3, label: "Quarta-feira" },
+  { value: 4, label: "Quinta-feira" },
+  { value: 5, label: "Sexta-feira" },
+  { value: 6, label: "Sábado" },
+];
 
 const editSchema = z.object({
   fullName: z.string().min(1, "Nome completo é obrigatório"),
@@ -27,9 +40,12 @@ const editSchema = z.object({
 type EditFormData = z.infer<typeof editSchema>;
 
 export default function VolunteerEdit() {
+  // TODOS OS HOOKS NO INÍCIO
   const [, params] = useRoute("/volunteers/:id/edit");
   const volunteerId = params?.id ? parseInt(params.id) : null;
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [timeSlots, setTimeSlots] = useState<Record<number, { start: string; end: string }>>({});
 
   const { data: volunteer } = trpc.volunteers.getById.useQuery(
     { id: volunteerId! },
@@ -72,15 +88,74 @@ export default function VolunteerEdit() {
         notes: volunteer.notes || "",
         address: volunteer.address || "",
       });
+
+      // Carregar disponibilidade existente
+      if (volunteer.availability && volunteer.availability.length > 0) {
+        const days = volunteer.availability.map((a: any) => a.dayOfWeek);
+        const slots: Record<number, { start: string; end: string }> = {};
+        
+        volunteer.availability.forEach((a: any) => {
+          slots[a.dayOfWeek] = {
+            start: a.startTime,
+            end: a.endTime,
+          };
+        });
+
+        setSelectedDays(days);
+        setTimeSlots(slots);
+      }
+
       setIsLoading(false);
     }
   }, [volunteer, reset]);
 
+  const handleDayToggle = (dayOfWeek: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayOfWeek) ? prev.filter((d) => d !== dayOfWeek) : [...prev, dayOfWeek]
+    );
+  };
+
+  const handleTimeChange = (dayOfWeek: number, field: "start" | "end", value: string) => {
+    setTimeSlots((prev) => ({
+      ...prev,
+      [dayOfWeek]: {
+        ...prev[dayOfWeek],
+        [field === "start" ? "start" : "end"]: value,
+      },
+    }));
+  };
+
   const onSubmit = async (data: EditFormData) => {
     if (!volunteerId) return;
+
+    // Validar disponibilidade
+    if (selectedDays.length === 0) {
+      toast.error("Selecione pelo menos um dia da semana");
+      return;
+    }
+
+    const missingTimes = selectedDays.some(
+      (day) => !timeSlots[day]?.start || !timeSlots[day]?.end
+    );
+
+    if (missingTimes) {
+      toast.error("Preencha os horários para todos os dias selecionados");
+      return;
+    }
+
+    // Construir array de disponibilidade
+    const availability = selectedDays.map((day) => ({
+      dayOfWeek: day,
+      startTime: timeSlots[day].start,
+      endTime: timeSlots[day].end,
+    }));
+
     await updateMutation.mutateAsync({
       id: volunteerId,
-      data,
+      data: {
+        ...data,
+        availability,
+      } as any,
     });
   };
 
@@ -275,9 +350,64 @@ export default function VolunteerEdit() {
                 </div>
               </div>
 
+              {/* Disponibilidade de Horários */}
+              <div>
+                <h3 className="text-lg font-semibold text-[#53245c] mb-4">4. Disponibilidade de Horários</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Selecione os dias da semana e horários em que você está disponível para atendimento.
+                </p>
+                <div className="space-y-3">
+                  {DAYS_OF_WEEK.map((day) => (
+                    <div key={day.value} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`day-${day.value}`}
+                          checked={selectedDays.includes(day.value)}
+                          onCheckedChange={() => handleDayToggle(day.value)}
+                        />
+                        <Label htmlFor={`day-${day.value}`} className="font-medium cursor-pointer">
+                          {day.label}
+                        </Label>
+                      </div>
+
+                      {selectedDays.includes(day.value) && (
+                        <div className="grid grid-cols-2 gap-3 ml-6">
+                          <div className="space-y-2">
+                            <Label htmlFor={`start-${day.value}`} className="text-sm">
+                              Início
+                            </Label>
+                            <Input
+                              id={`start-${day.value}`}
+                              type="time"
+                              value={timeSlots[day.value]?.start || ""}
+                              onChange={(e) =>
+                                handleTimeChange(day.value, "start", e.target.value)
+                              }
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor={`end-${day.value}`} className="text-sm">
+                              Término
+                            </Label>
+                            <Input
+                              id={`end-${day.value}`}
+                              type="time"
+                              value={timeSlots[day.value]?.end || ""}
+                              onChange={(e) =>
+                                handleTimeChange(day.value, "end", e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Observações */}
               <div>
-                <h3 className="text-lg font-semibold text-[#53245c] mb-4">4. Observações Adicionais</h3>
+                <h3 className="text-lg font-semibold text-[#53245c] mb-4">5. Observações Adicionais</h3>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Observações</label>
                 <textarea
                   {...register("notes")}
