@@ -27,63 +27,8 @@ import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 
 export default function VolunteersList() {
+  // TODOS OS HOOKS DEVEM VIR ANTES DE QUALQUER RETURN CONDICIONAL
   const { user, isAuthenticated, loading } = useAuth();
-  
-  // Verificar autenticação e permissão
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header title="Painel Admin" />
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="h-8 w-8 animate-spin text-[#53245c]" />
-        </div>
-      </div>
-    );
-  }
-  
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header title="Painel Admin" />
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <Lock className="h-16 w-16 mx-auto text-[#53245c] mb-4" />
-          <h1 className="text-3xl font-bold text-[#53245c] mb-4">
-            Acesso Restrito
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Você precisa estar autenticado para acessar o painel administrativo.
-          </p>
-          <a href={getLoginUrl()}>
-            <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
-              Fazer Login
-            </Button>
-          </a>
-        </div>
-      </div>
-    );
-  }
-  
-  if (user?.role !== "admin") {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header title="Painel Admin" />
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <Lock className="h-16 w-16 mx-auto text-[#53245c] mb-4" />
-          <h1 className="text-3xl font-bold text-[#53245c] mb-4">
-            Acesso Não Autorizado
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Apenas administradores podem acessar o painel de gerenciamento de voluntários.
-          </p>
-          <Link href="/">
-            <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
-              Voltar para Início
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
   const [searchTerm, setSearchTerm] = useState("");
   const [filterProject, setFilterProject] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
@@ -140,22 +85,59 @@ export default function VolunteersList() {
       : "bg-purple-100 text-purple-800";
   };
 
-  if (!user || user.role !== "admin") {
+  // VERIFICAÇÕES CONDICIONAIS APÓS TODOS OS HOOKS
+  // Verificar autenticação e permissão
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-white to-slate-50 flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Acesso Restrito</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-slate-600 mb-6">
-              Você não tem permissão para acessar esta página. Apenas administradores podem visualizar a listagem de voluntários.
-            </p>
-            <Link href="/">
-              <Button className="w-full">Voltar ao Início</Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-white">
+        <Header title="Painel Admin" />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-[#53245c]" />
+        </div>
+      </div>
+    );
+  }
+  
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header title="Painel Admin" />
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <Lock className="h-16 w-16 mx-auto text-[#53245c] mb-4" />
+          <h1 className="text-3xl font-bold text-[#53245c] mb-4">
+            Acesso Restrito
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Você precisa estar autenticado para acessar o painel administrativo.
+          </p>
+          <a href={getLoginUrl()}>
+            <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
+              Fazer Login
+            </Button>
+          </a>
+        </div>
+      </div>
+    );
+  }
+  
+  if (user?.role !== "admin") {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header title="Painel Admin" />
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <Lock className="h-16 w-16 mx-auto text-[#53245c] mb-4" />
+          <h1 className="text-3xl font-bold text-[#53245c] mb-4">
+            Acesso Não Autorizado
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Apenas administradores podem acessar o painel de gerenciamento de voluntários.
+          </p>
+          <Link href="/">
+            <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
+              Voltar para Início
+            </Button>
+          </Link>
+        </div>
       </div>
     );
   }

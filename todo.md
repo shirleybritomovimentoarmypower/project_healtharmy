@@ -130,4 +130,4 @@
 
 ## Bugs Reportados
 
-- [ ] Corrigir erro de hooks no VolunteersList ("Rendered more hooks than during the previous render")
+- [x] Corrigir erro de hooks no VolunteersList ("Rendered more hooks than during the previous render") - RESOLVIDO
