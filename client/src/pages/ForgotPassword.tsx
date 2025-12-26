@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,12 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Mail, ArrowLeft, CheckCircle2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export default function ForgotPassword() {
-  const [, navigate] = useNavigate();
+  const [, setLocation] = useLocation();
   const { resetPassword } = useAuth();
-  const { toast } = useToast();
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,17 +26,10 @@ export default function ForgotPassword() {
     try {
       await resetPassword(email);
       setSuccess(true);
-      toast({
-        title: "Email enviado!",
-        description: "Verifique sua caixa de entrada para redefinir sua senha.",
-      });
+      toast.success("Email enviado! Verifique sua caixa de entrada para redefinir sua senha.");
     } catch (err: any) {
       setError(err.message || "Erro ao enviar email de recuperação");
-      toast({
-        title: "Erro",
-        description: err.message || "Erro ao enviar email de recuperação",
-        variant: "destructive",
-      });
+      toast.error(err.message || "Erro ao enviar email de recuperação");
     } finally {
       setIsLoading(false);
     }
@@ -48,51 +40,27 @@ export default function ForgotPassword() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
         <div className="w-full max-w-md">
           <Card className="shadow-xl">
-            <CardHeader className="space-y-1">
+            <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
-                <div className="rounded-full bg-green-100 p-3">
+                <div className="bg-green-100 p-3 rounded-full">
                   <CheckCircle2 className="h-8 w-8 text-green-600" />
                 </div>
               </div>
-              <CardTitle className="text-2xl font-bold text-center">
-                Email Enviado!
-              </CardTitle>
-              <CardDescription className="text-center">
-                Enviamos um link de recuperação para <strong>{email}</strong>
+              <CardTitle className="text-2xl font-bold text-[#53245c]">Email Enviado!</CardTitle>
+              <CardDescription>
+                Enviamos as instruções de recuperação para <strong>{email}</strong>.
               </CardDescription>
             </CardHeader>
-
-            <CardContent className="space-y-4">
-              <Alert>
-                <AlertDescription>
-                  Verifique sua caixa de entrada e siga as instruções no email para redefinir sua senha.
-                  O link expira em 1 hora.
-                </AlertDescription>
-              </Alert>
-
-              <div className="text-sm text-gray-600 space-y-2">
-                <p>Não recebeu o email?</p>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li>Verifique sua pasta de spam</li>
-                  <li>Aguarde alguns minutos</li>
-                  <li>Tente enviar novamente</li>
-                </ul>
-              </div>
+            <CardContent className="text-center text-gray-600">
+              <p>Verifique sua caixa de entrada e siga o link para redefinir sua senha.</p>
             </CardContent>
-
-            <CardFooter className="flex flex-col space-y-2">
-              <Button
-                onClick={() => navigate("/login")}
-                className="w-full"
-              >
-                Voltar para o Login
-              </Button>
+            <CardFooter>
               <Button
                 variant="outline"
-                onClick={() => setSuccess(false)}
                 className="w-full"
+                onClick={() => setLocation("/login")}
               >
-                Enviar Novamente
+                Voltar para o Login
               </Button>
             </CardFooter>
           </Card>
@@ -104,27 +72,25 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            Health Army
-          </h1>
-          <p className="text-gray-600">Sistema de Gestão de Voluntários</p>
-        </div>
+        <button
+          onClick={() => setLocation("/login")}
+          className="flex items-center text-sm font-medium text-gray-600 hover:text-[#53245c] mb-6 transition-colors"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Voltar para o Login
+        </button>
 
-        <Card className="shadow-xl">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">
-              Recuperar Senha
-            </CardTitle>
-            <CardDescription className="text-center">
-              Digite seu email para receber um link de recuperação
+        <Card className="shadow-xl border-none">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl font-bold text-[#53245c]">Recuperar Senha</CardTitle>
+            <CardDescription>
+              Informe seu email para receber o link de redefinição
             </CardDescription>
           </CardHeader>
-
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <Alert variant="destructive">
+                <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
@@ -141,19 +107,13 @@ export default function ForgotPassword() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
                     required
-                    disabled={isLoading}
                   />
                 </div>
-                <p className="text-xs text-gray-500">
-                  Enviaremos um link para redefinir sua senha
-                </p>
               </div>
-            </CardContent>
 
-            <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-[#53245c] to-[#33b9cb] hover:opacity-90 transition-opacity h-11 text-base font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -162,28 +122,12 @@ export default function ForgotPassword() {
                     Enviando...
                   </>
                 ) : (
-                  <>Enviar Link de Recuperação</>
+                  "Enviar Link de Recuperação"
                 )}
               </Button>
-
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full"
-                onClick={() => navigate("/login")}
-                disabled={isLoading}
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Voltar para o Login
-              </Button>
-            </CardFooter>
-          </form>
+            </form>
+          </CardContent>
         </Card>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Desenvolvido com ❤️ para Health Army</p>
-          <p className="mt-1">Subprojeto do Movimento Army Power</p>
-        </div>
       </div>
     </div>
   );
