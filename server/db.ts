@@ -208,7 +208,13 @@ export async function listVolunteers() {
  */
 export async function updateVolunteer(
   volunteerId: number,
-  data: Partial<InsertVolunteer> & { availability?: InsertVolunteerAvailability[] }
+  data: Partial<InsertVolunteer> & { 
+    availability?: Array<{
+      dayOfWeek: number;
+      startTime: string;
+      endTime: string;
+    }>
+  }
 ) {
   const db = await getDb();
   if (!db) {
