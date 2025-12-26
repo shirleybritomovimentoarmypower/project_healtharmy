@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
+    "build": "vite build",
+    "start": "NODE_ENV=production tsx server/_core/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:drop": "drizzle-kit drop",
+    "setup:supabase": "bash scripts/setup-supabase.sh"
+  }
+}
+
+INSTRUÇÕES:
+Adicione os scripts acima ao seu package.json existente na seção "scripts".
+
+Scripts disponíveis:
+- pnpm db:generate  → Gerar arquivos de migração
+- pnpm db:push      → Aplicar schema no banco (usar este!)
+- pnpm db:studio    → Abrir Drizzle Studio (GUI)
+- pnpm db:drop      → Remover todas as tabelas (cuidado!)
+- pnpm setup:supabase → Executar script de setup automático

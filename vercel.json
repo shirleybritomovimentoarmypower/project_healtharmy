@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "outputDirectory": "dist/public",
+  "rewrites": [
+    {
+      "source": "/api/trpc/:path*",
+      "destination": "/api/trpc"
+    },
+    {
+      "source": "/api/oauth/:path*",
+      "destination": "/api/oauth"
+    },
+    {
+      "source": "/((?!api).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Cookie"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/trpc/(.*)",
+      "dest": "/api/trpc.js"
+    },
+    {
+      "src": "/api/oauth/(.*)",
+      "dest": "/api/oauth.js"
+    }
+  ]
+}
