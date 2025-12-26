@@ -245,7 +245,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 👥 Equipe
 
-Desenvolvido para **Health Army** - Transformando vidas através da saúde.
+Desenvolvido por **Shirley Brito** para **Health Army** - Transformando vidas através da saúde.
 
 ## 📞 Suporte
 
