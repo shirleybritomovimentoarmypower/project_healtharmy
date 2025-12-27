@@ -1,0 +1,90 @@
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+
+/**
+ * Core user table backing auth flow.
+ * Extend this file with additional tables as your product grows.
+ * Columns use camelCase to match both database fields and generated types.
+ */
+export const users = mysqlTable("users", {
+  /**
+   * Surrogate primary key. Auto-incremented numeric value managed by the database.
+   * Use this for relations between tables.
+   */
+  id: int("id").autoincrement().primaryKey(),
+  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
+  openId: varchar("openId", { length: 64 }).notNull().unique(),
+  name: text("name"),
+  email: varchar("email", { length: 320 }),
+  loginMethod: varchar("loginMethod", { length: 64 }),
+  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+
+/**
+ * Tabela de voluntários do Health Army
+ * Armazena informações de cadastro dos profissionais voluntários
+ */
+export const volunteers = mysqlTable("volunteers", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Nome completo do profissional */
+  fullName: varchar("fullName", { length: 255 }).notNull(),
+  /** Email de contato */
+  email: varchar("email", { length: 320 }).notNull(),
+  /** Telefone/WhatsApp */
+  phone: varchar("phone", { length: 20 }).notNull(),
+  /** Área de atuação (ex: Psicologia, Psiquiatria, Terapia Ocupacional) */
+  specialization: varchar("specialization", { length: 255 }).notNull(),
+  /** Registro profissional (CRP, CRM, etc) */
+  professionalRegistration: varchar("professionalRegistration", { length: 100 }).notNull(),
+  /** Projeto em que atua */
+  project: mysqlEnum("project", ["borahae_terapias", "purple_army"]).notNull(),
+  /** Tipo de atendimento oferecido */
+  serviceType: mysqlEnum("serviceType", ["gratuito", "valor_social", "ambos"]).notNull(),
+  /** Modalidade do atendimento */
+  modality: mysqlEnum("modality", ["online", "presencial"]).notNull(),
+  /** Duração média da sessão em minutos */
+  sessionDuration: int("sessionDuration").notNull().default(50),
+  /** Frequência de atendimento preferencial */
+  frequency: mysqlEnum("frequency", ["semanal", "quinzenal", "pontual"]).notNull(),
+  /** Observações adicionais */
+  notes: text("notes"),
+  /** Endereço (para atendimentos presenciais) */
+  address: text("address"),
+  /** Status do cadastro */
+  status: mysqlEnum("status", ["ativo", "inativo", "pendente"]).default("pendente").notNull(),
+  /** Timestamps */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Volunteer = typeof volunteers.$inferSelect;
+export type InsertVolunteer = typeof volunteers.$inferInsert;
+
+/**
+ * Tabela de disponibilidade de horários dos voluntários
+ * Armazena os horários de disponibilidade por dia da semana
+ */
+export const volunteerAvailability = mysqlTable("volunteerAvailability", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Referência ao voluntário */
+  volunteerId: int("volunteerId")
+    .notNull()
+    .references(() => volunteers.id, { onDelete: "cascade" }),
+  /** Dia da semana (0 = domingo, 1 = segunda, ..., 6 = sábado) */
+  dayOfWeek: int("dayOfWeek").notNull(), // 0-6
+  /** Horário de início (formato HH:mm) */
+  startTime: varchar("startTime", { length: 5 }).notNull(),
+  /** Horário de término (formato HH:mm) */
+  endTime: varchar("endTime", { length: 5 }).notNull(),
+  /** Timestamps */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VolunteerAvailability = typeof volunteerAvailability.$inferSelect;
+export type InsertVolunteerAvailability = typeof volunteerAvailability.$inferInsert;

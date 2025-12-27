@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container { 
+        width: 1280px; 
+        min-height: 720px; 
+        background: #FFFFFF; 
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        color: #0F172A;
+        overflow: hidden;
+      }
+      .image-panel {
+        width: 480px;
+        background: #53245c;
+        position: relative;
+      }
+      .image-panel img {
+        width: 480px;
+        height: 720px;
+        object-fit: cover;
+        opacity: 0.9;
+      }
+      .content-panel {
+        width: 800px;
+        padding-top: 60px;
+        padding-left: 60px;
+        padding-right: 80px;
+        display: flex;
+        flex-direction: column;
+      }
+      .logo-roadmap {
+        width: 120px;
+        margin-bottom: 30px;
+      }
+      .logo-roadmap img {
+        width: 100%;
+        object-fit: contain;
+      }
+      h2 {
+        font-size: 44px;
+        font-weight: 900;
+        color: #53245c;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+        margin-bottom: 40px;
+        border-left: 12px solid #33b9cb;
+        padding-left: 24px;
+        line-height: 1.1;
+      }
+      .roadmap-list {
+        list-style: none;
+      }
+      .roadmap-item {
+        margin-bottom: 30px;
+        display: flex;
+        align-items: flex-start;
+      }
+      .roadmap-marker {
+        width: 40px;
+        height: 40px;
+        background: #53245c;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 18px;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+      .roadmap-marker.priority {
+        background: #ccd41c;
+        color: #53245c;
+      }
+      .roadmap-text {
+        display: flex;
+        flex-direction: column;
+      }
+      .roadmap-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        color: #53245c;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+      .roadmap-desc {
+        font-size: 17px;
+        line-height: 1.4;
+        color: #334155;
+      }
+      .footer-tag {
+        margin-top: auto;
+        padding-top: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #33b9cb;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="image-panel">
+            <img src="/home/ubuntu/upload/search_images/GSLXktGdxbMx.jpg" alt="Future Vision">
+        </div>
+        <div class="content-panel">
+            <div class="logo-roadmap">
+                <img src="/home/ubuntu/project_healtharmy/assets/logo.jpg" alt="Logo">
+            </div>
+            <h2>Roadmap Estratégico:<br>O Futuro do Health Army</h2>
+            
+            <div class="roadmap-list">
+                <div class="roadmap-item">
+                    <div class="roadmap-marker priority">00</div>
+                    <div class="roadmap-text">
+                        <div class="roadmap-title" style="color: #33b9cb;">Integração Google Agenda</div>
+                        <div class="roadmap-desc">Prioridade Máxima: Sincronização bidirecional de horários e automação de eventos.</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">01</div>
+                    <div class="roadmap-text">
+                        <div class="roadmap-title">Métricas de Impacto</div>
+                        <div class="roadmap-desc">Dashboard para visualização de horas doadas e atendimentos realizados.</div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-marker">02</div>
+                    <div class="roadmap-text">
+                        <div class="roadmap-title">Matching Inteligente</div>
+                        <div class="roadmap-desc">Algoritmo para conectar voluntários e pacientes de forma otimizada.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-tag">Desenvolvido por Shirley Brito • 2025-2026</div>
+        </div>
+    </div>
+</body>
+</html>

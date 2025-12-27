@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      .slide-container { 
+        width: 1280px; 
+        min-height: 720px; 
+        background: #FFFFFF; 
+        font-family: 'Inter', sans-serif;
+        color: #0F172A;
+        padding-top: 60px;
+      }
+      .header {
+        padding-left: 80px;
+        margin-bottom: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 80px;
+      }
+      .logo-header {
+        width: 150px;
+      }
+      .logo-header img {
+        width: 100%;
+        object-fit: contain;
+      }
+      h2 {
+        font-size: 44px;
+        font-weight: 900;
+        color: #53245c;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+        border-left: 10px solid #ccd41c;
+        padding-left: 24px;
+      }
+      .features-container {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 80px;
+        padding-right: 80px;
+      }
+      .feature-col {
+        width: 30%;
+        border-top: 5px solid #53245c;
+        padding-top: 24px;
+      }
+      .feature-title {
+        font-weight: 700;
+        font-size: 22px;
+        color: #33b9cb;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+      .feature-list {
+        list-style: none;
+      }
+      .feature-list li {
+        font-size: 17px;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: flex-start;
+        color: #334155;
+      }
+      .feature-list li::before {
+        content: "•";
+        color: #ccd41c;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .icon-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+      }
+      .icon-center img {
+        width: 140px;
+        height: 140px;
+        object-fit: contain;
+      }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <h2>Gestão & Disponibilidade</h2>
+            <div class="logo-header">
+                <img src="/home/ubuntu/project_healtharmy/assets/logo.jpg" alt="Logo">
+            </div>
+        </div>
+        <div class="features-container">
+            <div class="feature-col">
+                <div class="feature-title">Gestão de Voluntários</div>
+                <ul class="feature-list">
+                    <li>Cadastro simplificado</li>
+                    <li>Edição detalhada de dados</li>
+                    <li>Painel administrativo central</li>
+                </ul>
+            </div>
+            <div class="feature-col">
+                <div class="feature-title" style="color: #53245c;">Agenda Flexível</div>
+                <ul class="feature-list">
+                    <li>Múltiplos dias da semana</li>
+                    <li>Janelas de tempo ajustáveis</li>
+                    <li>Ajuste em tempo real</li>
+                </ul>
+            </div>
+            <div class="feature-col">
+                <div class="feature-title">Qualidade & Dados</div>
+                <ul class="feature-list">
+                    <li>Validação em duas camadas</li>
+                    <li>Integridade de informações</li>
+                    <li>Redução de carga cognitiva</li>
+                </ul>
+            </div>
+        </div>
+        <div class="icon-center">
+            <img src="/home/ubuntu/upload/search_images/3Msvpt5sjPjH.jpg" alt="Volunteer Icon">
+        </div>
+    </div>
+</body>
+</html>

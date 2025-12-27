@@ -1,0 +1,52 @@
+{
+  "project_info": {
+    "title": "Health Army Volunteers: Transformando Tecnologia em Impacto Social",
+    "created": 1766846978.9359484,
+    "last_updated": 1766847021.0253959,
+    "total_slides": 5
+  },
+  "slides": {
+    "intro": "edited",
+    "architecture": "edited",
+    "features": "edited",
+    "optimization": "edited",
+    "roadmap": "edited"
+  },
+  "outline": [
+    {
+      "id": "intro",
+      "title": "Health Army Volunteers: Transformando Tecnologia em Impacto Social",
+      "summary": "Visão geral da plataforma e objetivos alcançados na Sprint 2. Desenvolvido por Shirley Brito.",
+      "image_plan": "/home/ubuntu/upload/search_images/lM0VmFJyEZwV.jpg - The title slide needs a strong visual that combines healthcare and technology. Image 1 is a clean, modern background with \"HEALTHCARE\" text and a subtle tech/network pattern, which fits the theme of \"Transformando Tecnologia em Impacto Social\".",
+      "slide_template_key": ""
+    },
+    {
+      "id": "architecture",
+      "title": "Arquitetura Moderna Garante Performance e Segurança de Dados",
+      "summary": "Detalhamento da stack tecnológica: React 19, tRPC, Supabase e RLS.",
+      "image_plan": "/home/ubuntu/upload/search_images/BZalon62b0rl.jpg - This slide discusses modern architecture, frontend/backend, and database technology (React, tRPC, Supabase). Image 7 is an abstract representation of a digital network or circuit board with integrated medical icons, symbolizing the technical architecture.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "features",
+      "title": "Gestão Dinâmica de Voluntários e Disponibilidade Flexível",
+      "summary": "Funcionalidades de cadastro, edição e sistema de agenda flexível.",
+      "image_plan": "/home/ubuntu/upload/search_images/3Msvpt5sjPjH.jpg - This slide focuses on volunteer management, registration, and scheduling. Image 5 is a simple, clean icon representing people/volunteers with medical crosses, which directly relates to the \"Health Army Volunteers\" and their management.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "optimization",
+      "title": "Otimização para Deploy e Estabilidade do Sistema",
+      "summary": "Melhorias de infraestrutura, correção de bugs e prontidão para Vercel.",
+      "image_plan": "/home/ubuntu/upload/search_images/AVhsEDDLoswX.jpg - This slide discusses optimization, stability, and deployment (Vercel, Sonner). Image 2 is a dark blue abstract background with a heartbeat line and hexagonal patterns, suggesting stability, monitoring, and high-tech performance, which is suitable for system optimization.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "roadmap",
+      "title": "Roadmap Estratégico: O Futuro do Health Army",
+      "summary": "Próximos passos: Integração com Google Agenda (Prioridade 0) e escala global.",
+      "image_plan": "/home/ubuntu/upload/search_images/GSLXktGdxbMx.jpg - The roadmap slide discusses future features like impact metrics, smart matching, and global scale. Image 8 is a dynamic, futuristic visual with various medical and tech icons (brain, heart, DNA) in a hexagonal pattern, representing strategic vision and future growth/impact.",
+      "slide_template_key": ""
+    }
+  ]
+}
