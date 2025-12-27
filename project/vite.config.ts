@@ -21,16 +21,13 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    sourcemap: false, // Otimização para produção
+    minify: "esbuild",
   },
+  // A seção 'server' é usada apenas no desenvolvimento local (pnpm dev)
+  // Na Vercel, o servidor é gerenciado pela própria plataforma.
   server: {
     host: true,
-    allowedHosts: [
-      "localhost",
-      "127.0.0.1",
-    ],
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
-    },
+    port: 3000,
   },
 });
