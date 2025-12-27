@@ -8,10 +8,7 @@
       "source": "/api/trpc/:path*",
       "destination": "/api/trpc"
     },
-    {
-      "source": "/api/oauth/:path*",
-      "destination": "/api/oauth"
-    },
+
     {
       "source": "/((?!api).*)",
       "destination": "/index.html"

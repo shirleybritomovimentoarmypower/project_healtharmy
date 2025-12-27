@@ -16,10 +16,10 @@ let _client: ReturnType<typeof postgres> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (!_db && ENV.databaseUrl) {
     try {
       // Create postgres client
-      _client = postgres(process.env.DATABASE_URL, {
+      _client = postgres(ENV.databaseUrl, {
         max: 10, // Maximum number of connections
         idle_timeout: 20,
         connect_timeout: 10,
@@ -114,7 +114,7 @@ export async function getUserByOpenId(openId: string) {
 }
 
 /**
- * Criar um novo voluntário com sua disponibilidade de horários
+ * Criar um novo voluntário com sua disponibilidade de horários usando transação
  */
 export async function createVolunteer(
   volunteerData: InsertVolunteer,
@@ -126,25 +126,27 @@ export async function createVolunteer(
   }
 
   try {
-    // Inserir voluntário e retornar o ID
-    const result = await db.insert(volunteers).values(volunteerData).returning({ id: volunteers.id });
-    
-    const volunteerId = result[0]?.id;
+    return await db.transaction(async (tx) => {
+      // 1. Inserir voluntário e retornar o ID
+      const result = await tx.insert(volunteers).values(volunteerData).returning({ id: volunteers.id });
+      
+      const volunteerId = result[0]?.id;
 
-    if (!volunteerId) {
-      throw new Error('Failed to get inserted volunteer ID');
-    }
+      if (!volunteerId) {
+        throw new Error('Failed to get inserted volunteer ID');
+      }
 
-    // Inserir disponibilidade de horários se fornecida
-    if (availabilityData.length > 0) {
-      const availabilityWithId = availabilityData.map((avail) => ({
-        ...avail,
-        volunteerId,
-      }));
-      await db.insert(volunteerAvailability).values(availabilityWithId);
-    }
+      // 2. Inserir disponibilidade de horários se fornecida
+      if (availabilityData.length > 0) {
+        const availabilityWithId = availabilityData.map((avail) => ({
+          ...avail,
+          volunteerId,
+        }));
+        await tx.insert(volunteerAvailability).values(availabilityWithId);
+      }
 
-    return volunteerId;
+      return volunteerId;
+    });
   } catch (error) {
     console.error("[Database] Failed to create volunteer:", error);
     throw error;
@@ -248,5 +250,3 @@ export async function deleteVolunteer(volunteerId: number) {
     throw error;
   }
 }
-
-// TODO: add feature queries here as your schema grows.

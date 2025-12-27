@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, UserCircle, Shield } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Login() {
   const { isAuthenticated, isAdmin, isProfessional, isLoading } = useAuth();
@@ -20,9 +21,19 @@ export default function Login() {
     }
   }, [isAuthenticated, isAdmin, isProfessional, isLoading, setLocation]);
 
-  const handleLogin = () => {
-    // Redirecionar para o endpoint de OAuth do Manus
-    window.location.href = "/api/auth/login";
+  const handleLogin = async () => {
+    // Usar Supabase Auth para login (exemplo com Google, mas pode ser ajustado)
+    // Se preferir e-mail/senha, precisaria de um formulário
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/login'
+      }
+    });
+    
+    if (error) {
+      console.error("Erro ao iniciar login com Supabase:", error.message);
+    }
   };
 
   if (isLoading) {
@@ -82,7 +93,7 @@ export default function Login() {
                 className="w-full bg-blue-600 hover:bg-blue-700"
                 size="lg"
               >
-                Entrar como Profissional
+                Entrar com Google
               </Button>
             </CardContent>
           </Card>

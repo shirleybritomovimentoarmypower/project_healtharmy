@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { supabase } from "@/lib/supabase";
 
 export type UserRole = "user" | "admin";
 
@@ -29,23 +30,41 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isInitialized, setIsInitialized] = useState(false);
+  const [session, setSession] = useState<any>(null);
   
   const { data: user, isLoading, refetch } = trpc.auth.me.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
+    enabled: !!session,
   });
 
-  const logoutMutation = trpc.auth.logout.useMutation();
+  useEffect(() => {
+    // Obter sessão inicial
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (!session) setIsInitialized(true);
+    });
+
+    // Ouvir mudanças na autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session) {
+        setIsInitialized(true);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && session) {
       setIsInitialized(true);
     }
-  }, [isLoading]);
+  }, [isLoading, session]);
 
   const logout = async () => {
     try {
-      await logoutMutation.mutateAsync();
+      await supabase.auth.signOut();
       window.location.href = "/";
     } catch (error) {
       console.error("Erro ao fazer logout:", error);

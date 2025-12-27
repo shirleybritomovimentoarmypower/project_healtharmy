@@ -1,3 +1,5 @@
+import { ENV } from "./_core/env";
+
 /**
  * Template de email de confirmação de cadastro
  */
@@ -101,12 +103,17 @@ export async function sendConfirmationEmail(
   volunteerEmail: string
 ): Promise<boolean> {
   try {
-    // Usar a API de notificação do Manus para enviar email
-    const response = await fetch(`${process.env.BUILT_IN_FORGE_API_URL}/notification/email`, {
+    // Usar a API de notificação configurada no ENV
+    if (!ENV.forgeApiUrl || !ENV.forgeApiKey) {
+      console.warn("[Email] Serviço de email não configurado corretamente");
+      return false;
+    }
+
+    const response = await fetch(`${ENV.forgeApiUrl}/notification/email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.BUILT_IN_FORGE_API_KEY}`,
+        Authorization: `Bearer ${ENV.forgeApiKey}`,
       },
       body: JSON.stringify({
         to: volunteerEmail,
@@ -138,11 +145,16 @@ export async function sendAdminNotification(
   adminEmail: string
 ): Promise<boolean> {
   try {
-    const response = await fetch(`${process.env.BUILT_IN_FORGE_API_URL}/notification/email`, {
+    if (!ENV.forgeApiUrl || !ENV.forgeApiKey) {
+      console.warn("[Email] Serviço de email não configurado corretamente");
+      return false;
+    }
+
+    const response = await fetch(`${ENV.forgeApiUrl}/notification/email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.BUILT_IN_FORGE_API_KEY}`,
+        Authorization: `Bearer ${ENV.forgeApiKey}`,
       },
       body: JSON.stringify({
         to: adminEmail,

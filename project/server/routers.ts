@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
+
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, adminProcedure, router } from "./_core/trpc";
 import {
   createVolunteer,
   listVolunteers,
@@ -12,18 +11,12 @@ import {
 } from "./db";
 import { sendConfirmationEmail, sendAdminNotification } from "./email";
 import type { InsertVolunteer } from "../drizzle/schema";
+import { ENV } from "./_core/env";
 
 export const appRouter = router({
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-      return {
-        success: true,
-      } as const;
-    }),
   }),
 
   volunteers: router({
@@ -61,7 +54,7 @@ export const appRouter = router({
         await sendConfirmationEmail(input.fullName, input.email);
         
         // Enviar notificacao ao admin
-        const adminEmail = process.env.OWNER_NAME || "admin@healtharmy.com";
+        const adminEmail = process.env.OWNER_EMAIL || "admin@healtharmy.com";
         await sendAdminNotification(
           input.fullName,
           input.specialization,
@@ -72,17 +65,17 @@ export const appRouter = router({
         return { id: volunteerId, message: "Voluntário cadastrado com sucesso!" };
       }),
 
-    list: publicProcedure.query(async () => {
+    list: adminProcedure.query(async () => {
       return await listVolunteers();
     }),
 
-    getById: publicProcedure
+    getById: adminProcedure
       .input(z.object({ id: z.number().int().positive() }))
       .query(async ({ input }) => {
         return await getVolunteerWithAvailability(input.id);
       }),
 
-    update: publicProcedure
+    update: adminProcedure
       .input(
         z.object({
           id: z.number().int().positive(),
@@ -108,7 +101,7 @@ export const appRouter = router({
         return { message: "Voluntário atualizado com sucesso!" };
       }),
 
-    delete: publicProcedure
+    delete: adminProcedure
       .input(z.object({ id: z.number().int().positive() }))
       .mutation(async ({ input }) => {
         await deleteVolunteer(input.id);
