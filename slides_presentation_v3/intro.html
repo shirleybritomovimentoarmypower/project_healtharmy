@@ -25,16 +25,20 @@
         width: 40%;
         background: #0F172A;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
       }
       .right-panel img {
         width: 100%;
-        height: 100%;
+        height: auto; /* avoid stretching the image to container height */
+        max-height: 640px; /* keep image inside the slide without forcing overflow */
         object-fit: cover;
-        opacity: 0.8;
       }
       .logo-container {
         width: 220px;
-        margin-bottom: 20px; /* reduced to save height */
+        margin-bottom: 6px; /* reduced spacing */
       }
       .logo-container img {
         width: 100%;
@@ -44,7 +48,7 @@
         width: 100px;
         height: 8px;
         background: #059669;
-        margin-bottom: 30px;
+        margin-bottom: 6px; /* reduced spacing */
       }
       h1 {
         font-family: 'Inter', sans-serif;
@@ -60,12 +64,12 @@
         font-family: 'Montserrat', sans-serif;
         font-size: 30px;
         color: #334155;
-        margin-bottom: 24px; /* reduced to pull content up */
+        margin-bottom: 6px; /* reduced spacing */
         font-weight: 700;
       }
       .meta {
-        margin-top: auto;
-        padding-bottom: 40px; /* reduced to bring bottom up */
+        /* removed margin-top:auto to prevent it from being pushed to the bottom */
+        padding-bottom: 12px; /* reduced bottom padding to shorten total height */
         font-size: 18px;
         color: #64748b;
         text-transform: uppercase;
@@ -99,7 +103,7 @@
             </div>
         </div>
         <div class="right-panel">
-            <img src="/home/ubuntu/upload/search_images/lM0VmFJyEZwV.jpg" alt="Healthcare Technology">
+            <img src="/home/ubuntu/project_healtharmy/assets/ai_cover.png" alt="Healthcare Technology AI">
         </div>
     </div>
 </body>
