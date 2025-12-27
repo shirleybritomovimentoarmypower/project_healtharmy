@@ -76,5 +76,5 @@ O projeto **Health Army Volunteers** atingiu um estado de maturidade técnica qu
 
 ---
 
-**Equipe de Desenvolvimento Health Army**  
+**Desenvolvedora Responsável:** Shirley Brito  
 *Transformando tecnologia em impacto social.*
