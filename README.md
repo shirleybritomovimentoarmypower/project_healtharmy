@@ -237,10 +237,6 @@ pnpm db:studio    # Abrir Drizzle Studio
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👥 Equipe
 
 Desenvolvido por **Shirley Brito** para **Health Army** - Transformando vidas através da saúde.
