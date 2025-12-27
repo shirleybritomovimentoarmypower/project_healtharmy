@@ -60,13 +60,12 @@ Para garantir que o projeto seja apresentado com sucesso na Vercel, realizamos a
 
 ---
 
-## 📈 5. Próximos Passos (Roadmap)
+## 📈 5. Próximas Passos (Roadmap)
 
-Para as próximas sprints, recomendamos o foco em:
+Para as próximas sprints, a **prioridade máxima** será:
 
-1.  **Dashboard de Métricas:** Visualização de impacto (número de atendimentos, horas doadas).
-2.  **Integração de Calendário:** Sincronização com Google Calendar e Outlook.
-3.  **Sistema de Matching:** Algoritmo para sugerir voluntários baseados na necessidade do paciente.
+1.  **Integração com Google Agenda (Prioridade 0):** Implementação de sincronização bidirecional, permitindo que a disponibilidade dos voluntários seja gerida diretamente via Google Calendar.
+2.  **Dashboard de Métricas:** Visualização de impacto (número de atendimentos, horas doadas).ema de Matching:** Algoritmo para sugerir voluntários baseados na necessidade do paciente.
 4.  **Internacionalização (i18n):** Preparar a plataforma para múltiplos idiomas.
 
 ---

@@ -131,3 +131,12 @@
 ## Bugs Reportados
 
 - [x] Corrigir erro de hooks no VolunteersList ("Rendered more hooks than during the previous render") - RESOLVIDO
+
+## Integração com Google Agenda (Prioridade Máxima)
+
+### Sincronização de Calendário
+- [ ] Configurar Google Cloud Console para API do Google Calendar
+- [ ] Implementar fluxo OAuth2 para permissões de calendário
+- [ ] Sincronizar disponibilidade do voluntário com Google Agenda
+- [ ] Criar eventos automáticos no calendário após agendamentos
+- [ ] Notificar voluntários via Google Calendar sobre novos atendimentos

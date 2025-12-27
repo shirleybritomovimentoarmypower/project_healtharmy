@@ -168,6 +168,12 @@ export async function updateVolunteer(
 
 ## 📝 Próximas Tarefas Recomendadas
 
+### Prioridade Máxima (Urgente)
+0. **Integração com Google Agenda**
+   - Sincronização bidirecional de horários.
+   - Fluxo de autenticação OAuth2 para calendários.
+   - Automação de eventos e notificações.
+
 ### Prioridade Alta
 1. **Testes de Responsividade**
    - Testar em mobile (320px-480px)
