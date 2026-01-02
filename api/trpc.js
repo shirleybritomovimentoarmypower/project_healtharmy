@@ -5,11 +5,15 @@
 
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import express from 'express';
-import { appRouter } from '../dist/routers.js';
-import { createContext } from '../dist/_core/context.js';
+import cors from 'cors';
+import { appRouter } from '../server/routers.ts';
+import { createContext } from '../server/_core/context.ts';
 
 // Create Express app
 const app = express();
+
+// Enable CORS for Vercel deployment
+app.use(cors());
 
 // Configure body parser
 app.use(express.json({ limit: '50mb' }));
