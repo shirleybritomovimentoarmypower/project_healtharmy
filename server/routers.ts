@@ -107,7 +107,7 @@ export const appRouter = router({
       )
       .mutation(async ({ input }) => {
         const { error } = await supabase.auth.resetPasswordForEmail(input.email, {
-          redirectTo: `${process.env.VITE_APP_URL || "http://localhost:3001"}/reset-password`,
+          redirectTo: "https://project-healtharmy.vercel.app/reset-password",
         });
 
         if (error) {
