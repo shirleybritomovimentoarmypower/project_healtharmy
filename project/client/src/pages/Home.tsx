@@ -1,7 +1,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
+
 import { UserCircle, Shield, Heart, Users, Calendar, CheckCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
@@ -96,7 +96,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <a href={getLoginUrl()} className="block mt-6">
+                <a href="/login" className="block mt-6">
                   <Button className="w-full bg-gradient-to-r from-[#33b9cb] to-[#2a8fa3] hover:from-[#2a8fa3] hover:to-[#1f6478] text-white text-lg py-6">
                     <UserCircle className="mr-2 h-5 w-5" />
                     Acessar como Profissional
@@ -137,7 +137,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <a href={getLoginUrl()} className="block mt-6">
+                <a href="/login" className="block mt-6">
                   <Button className="w-full bg-gradient-to-r from-[#53245c] to-[#3d1a46] hover:from-[#3d1a46] hover:to-[#2a1230] text-white text-lg py-6">
                     <Shield className="mr-2 h-5 w-5" />
                     Acessar como Administrador
@@ -205,7 +205,7 @@ export default function Home() {
           <p className="text-xl mb-8 text-white/90">
             Junte-se aos voluntários do Health Army e ajude a transformar vidas através de atendimentos de saúde de qualidade.
           </p>
-          <a href={getLoginUrl()}>
+          <a href="/login">
             <Button className="bg-white text-[#53245c] hover:bg-gray-100 text-lg px-8 py-6">
               Comece Agora
             </Button>

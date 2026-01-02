@@ -23,7 +23,7 @@ import {
 import { Loader2, Search, Mail, Phone, Calendar, Lock } from "lucide-react";
 import Header from "@/components/Header";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 import { toast } from "sonner";
 
 export default function VolunteersList() {
@@ -53,7 +53,7 @@ export default function VolunteersList() {
           <p className="text-gray-600 mb-8">
             Você precisa estar autenticado para acessar o painel administrativo.
           </p>
-          <a href={getLoginUrl()}>
+          <a href="/login">
             <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
               Fazer Login
             </Button>

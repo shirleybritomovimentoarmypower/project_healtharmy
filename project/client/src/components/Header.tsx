@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { LogOut, Menu, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { getLoginUrl } from "@/const";
+
 
 interface HeaderProps {
   title?: string;
@@ -77,7 +77,7 @@ export default function Header({ title, showBackButton, backLink }: HeaderProps)
               </>
             ) : (
               <>
-                <a href={getLoginUrl()}>
+                <a href="/login">
                   <Button variant="outline" className="text-white border-white hover:bg-white/10">
                     <LogIn className="h-4 w-4 mr-2" />
                     Login
@@ -136,7 +136,7 @@ export default function Header({ title, showBackButton, backLink }: HeaderProps)
               </>
             ) : (
               <>
-                <a href={getLoginUrl()} className="w-full">
+                <a href="/login" className="w-full">
                   <Button variant="outline" className="w-full text-white border-white hover:bg-white/10">
                     <LogIn className="h-4 w-4 mr-2" />
                     Login

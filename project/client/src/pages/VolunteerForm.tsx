@@ -15,7 +15,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 import { Lock } from "lucide-react";
 
 const DAYS_OF_WEEK = [
@@ -79,7 +79,7 @@ export default function VolunteerForm() {
           <p className="text-gray-600 mb-8">
             Você precisa estar autenticado para acessar o formulário de cadastro de voluntário.
           </p>
-          <a href={getLoginUrl()}>
+          <a href="/login">
             <Button className="bg-gradient-to-r from-[#53245c] to-[#33b9cb] text-white">
               Fazer Login
             </Button>
