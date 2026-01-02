@@ -39,15 +39,5 @@
         }
       ]
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/trpc/(.*)",
-      "dest": "/api/trpc.js"
-    },
-    {
-      "src": "/api/oauth/(.*)",
-      "dest": "/api/oauth.js"
-    }
   ]
 }
