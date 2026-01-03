@@ -106,3 +106,18 @@ temp/
 *.sqlite
 *.sqlite3
 .vercel
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Environment
+.env.local
+.env.test.local
+
+# Monitoring
+sentry.properties
