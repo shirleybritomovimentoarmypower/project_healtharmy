@@ -1,83 +1,34 @@
-import { createClient } from "@supabase/supabase-js";
+﻿import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || "";
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+// Carrega variáveis de ambiente
+dotenv.config();
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Missing Supabase environment variables");
+const supabaseUrl = process.env.VITE_SUPABASE_URL || import.meta.env?.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || import.meta.env?.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase credentials. Please check your .env file.');
+  console.error('VITE_SUPABASE_URL:', supabaseUrl ? 'Set' : 'Missing');
+  console.error('VITE_SUPABASE_ANON_KEY:', supabaseKey ? 'Set' : 'Missing');
+  throw new Error('supabaseKey is required.');
 }
 
-/**
- * Cliente Supabase para uso no servidor
- * Usa a service role key para operações administrativas
- */
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 /**
- * Cliente Supabase padrão
- * Usa a anon key para operações normais
+ * Cliente Supabase com service role key para operações administrativas
+ * Usa a service role key se disponível, senão usa a anon key
  */
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseKey;
 
-/**
- * Verifica se um token JWT do Supabase é válido
- */
-export async function verifySupabaseToken(token: string) {
-  try {
-    const {
-      data: { user },
-      error,
-    } = await supabaseAdmin.auth.getUser(token);
-
-    if (error || !user) {
-      return null;
+export const supabaseAdmin = createClient(
+  supabaseUrl,
+  supabaseServiceKey,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
     }
-
-    return user;
-  } catch (error) {
-    console.error("Error verifying Supabase token:", error);
-    return null;
   }
-}
-
-/**
- * Obtém ou cria um usuário na tabela users baseado no auth.users do Supabase
- */
-export async function getOrCreateUser(supabaseUserId: string, email: string, name?: string) {
-  const { db } = await import("./db");
-  const { users } = await import("../drizzle/schema");
-  const { eq } = await import("drizzle-orm");
-
-  // Verificar se o usuário já existe
-  const existingUser = await db.select().from(users).where(eq(users.id, supabaseUserId)).limit(1);
-
-  if (existingUser.length > 0) {
-    // Atualizar lastSignedIn
-    await db
-      .update(users)
-      .set({ lastSignedIn: new Date() })
-      .where(eq(users.id, supabaseUserId));
-
-    return existingUser[0];
-  }
-
-  // Criar novo usuário
-  const newUser = await db
-    .insert(users)
-    .values({
-      id: supabaseUserId,
-      email,
-      name: name || null,
-      role: "user",
-      lastSignedIn: new Date(),
-    })
-    .returning();
-
-  return newUser[0];
-}
+);
